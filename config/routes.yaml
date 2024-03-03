@@ -1,5 +1,15 @@
 controllers:
     resource:
-        path: ../src/Controller/
-        namespace: App\Controller
+        path: ../src/UI/Controller/
+        namespace: App\UI\Controller
     type: attribute
+
+form_page:
+    path: /form
+    controller: App\UI\Controller\Controller::formPage
+    methods: ['GET', 'POST']
+
+list_of_users:
+    path: /list
+    controller: App\UI\Controller\Controller::listOfUsers
+    methods: ['GET']

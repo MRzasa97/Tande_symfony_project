@@ -1,0 +1,50 @@
+version: '3.1'
+
+services:
+    app:
+        build: .
+        container_name: 'php-interview'
+        depends_on:
+            - rabbitmq
+        volumes:
+            - ./:/app
+        env_file:
+            - .env
+        ports:
+            - 8081:80
+        networks:
+            - stack
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
+        container_name: interview_rabbit-php
+        restart: on-failure
+        environment:
+            - RABBITMQ_DEFAULT_USER=user
+            - RABBITMQ_DEFAULT_PASS=password
+            - RABBITMQ_DEFAULT_VHOST=vhost
+        ports:
+            - "127.0.0.1:5672:5672"
+            - "15672:15672"
+        networks:
+            - stack
+
+    postgres:
+        image: postgres:latest
+        container_name: interview_postgres
+        restart: on-failure
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: symfony
+        ports:
+            - "5432:5432"
+        networks:
+            - stack
+
+networks:
+    stack:
+        name: stack
+
+volumes:
+    interview_rabbit-php:
+    interview_postgres:
